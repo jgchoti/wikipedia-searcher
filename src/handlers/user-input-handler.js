@@ -3,6 +3,7 @@ import { renderResult } from '../components/render-result.js';
 import { renderError } from '../components/render-error.js';
 import { wikiOpenSearch } from '../api-calls/wiki-open-search.js';
 import { renderSuggestion } from '../components/render-suggestion.js';
+import { renderPaginator } from '../components/render-paginator.js';
 
 export const userInputHandler = async (event) => {
     const output = document.getElementById('output')
@@ -16,7 +17,9 @@ export const userInputHandler = async (event) => {
         const [info, suggestSearch] = await Promise.all([infoPromise, suggestSearchPromise])
 
         renderSuggestion(suggestSearch)
-        renderResult(info.query.search)
+        renderResult(info.query.search, 1, 5)
+        renderPaginator(info.query.search, 1, 5)
+
     } catch (err) {
         if (userInput === '') {
             renderError('Input field empty!')
